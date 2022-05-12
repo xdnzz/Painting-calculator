@@ -1,0 +1,1 @@
+Application craeted to calculate how much ink a person would use to paint walls
