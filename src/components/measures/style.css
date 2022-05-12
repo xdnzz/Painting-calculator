@@ -1,0 +1,63 @@
+.wall {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    justify-content: center;
+    width: 300px;
+    height: auto;
+    margin: 0 auto;
+    border: 1px solid grey;
+    border-radius: 5px;
+}
+
+.measuresContainers {
+    display: flex;
+    flex-direction: column;
+
+}
+
+
+input {
+    width: 200px;
+    margin: 17px 0;
+    background-color: #fff;
+    border: 1px solid grey;
+    height: 24px;
+}
+
+.doorsWindows {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.doorsWindows input {
+    width: 150px;
+    margin: 10px 10px;
+}
+
+button {
+    width: 20px;
+    border-radius: 100%;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    display: flex;
+
+}
+
+.doorsWindowsHide {
+    display: none;
+}
+
+
+h1 {
+    margin-bottom: 80px;
+}
+
+.inputItems {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
