@@ -6,7 +6,7 @@ import { Plus, Minus } from "phosphor-react";
 export function MeasuresFirst() {
 
 
- 
+
     const [handleValueHeight, setHandleValueHeight] = useState<any>(0)
     const [handleValueWidth, setHandleValueWidth] = useState<any>(0)
     const [handleValueWindows, setHandleValueWindows] = useState<any>(0)
@@ -16,24 +16,26 @@ export function MeasuresFirst() {
 
 
     function incrementHeight() {
-        if(handleValueHeight===15) return;
+        if (handleValueHeight === 15) return;
         setHandleValueHeight(handleValueHeight + 1);
         setAltura(altura + 1)
 
     }
 
     function decrementHeight() {
-        if(handleValueHeight===0) return;
+        if (handleValueHeight === 0) return;
         setHandleValueHeight(handleValueHeight - 1);
         setAltura(altura - 1)
     }
 
     function incrementWidth() {
+        if (handleValueWidth === 15) return;
         setHandleValueWidth(handleValueWidth + 1);
         setLargura(largura + 1)
     }
 
     function decrementWidth() {
+        if (handleValueWidth === 0) return;
         setHandleValueWidth(handleValueWidth - 1);
         setLargura(largura - 1)
     }
@@ -45,6 +47,7 @@ export function MeasuresFirst() {
     }
 
     function decrementWindow() {
+        if (handleValueWindows === 0) return;
         setHandleValueWindows(handleValueWindows - 1)
         setJanela(janela - 1)
     }
@@ -56,6 +59,7 @@ export function MeasuresFirst() {
     }
 
     function decrementDoors() {
+        if (handleValueDoors === 0) return;
         setHandleValueDoors(handleValueDoors - 1)
         setPorta(porta - 1)
 
@@ -66,9 +70,9 @@ export function MeasuresFirst() {
 
     return (
         <div className="wall">
-           
+            {altura}Metros altura | {altura / 2}Altura /2
             <h1>Parede 1</h1>
-   
+
             <label htmlFor="altura">Altura</label>
             <div className="inputItems">
                 <button onClick={decrementHeight}><Minus size={20} /></button>
@@ -93,6 +97,7 @@ export function MeasuresFirst() {
                     max="15"
                     onChange={(item) => setHandleValueWidth(item.target.value)}
                     placeholder="Largura"
+                    disabled
                 />
                 <button onClick={incrementWidth}><Plus size={20} /></button>
             </div>
@@ -108,6 +113,7 @@ export function MeasuresFirst() {
                         min="0"
                         max="15"
                         placeholder="Janelas"
+                        disabled
                     />
                     <button onClick={incrementWindow}><Plus size={20} /></button>
                 </div>
@@ -122,6 +128,7 @@ export function MeasuresFirst() {
                         min="0"
                         max="15"
                         placeholder="Portas"
+                        disabled
                     />
                     <button onClick={incrementDoors}><Plus size={20} /></button>
                 </div>
