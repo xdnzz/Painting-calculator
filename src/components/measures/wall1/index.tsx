@@ -18,14 +18,14 @@ export function MeasuresFirst() {
     function incrementHeight() {
         if (handleValueHeight === 15) return;
         setHandleValueHeight(handleValueHeight + 1);
-        setAltura(altura + 1)
+        setAltura(altura + 1);
 
     }
 
     function decrementHeight() {
         if (handleValueHeight === 0) return;
         setHandleValueHeight(handleValueHeight - 1);
-        setAltura(altura - 1)
+        setAltura(altura - 1);
     }
 
     function incrementWidth() {
@@ -42,35 +42,50 @@ export function MeasuresFirst() {
 
 
     function incrementWindow() {
-        setHandleValueWindows(handleValueWindows + 1)
-        setJanela(janela + 1)
+        setHandleValueWindows(handleValueWindows + 2.4);
+        setJanela(janela + 1);
     }
 
     function decrementWindow() {
         if (handleValueWindows === 0) return;
-        setHandleValueWindows(handleValueWindows - 1)
-        setJanela(janela - 1)
+        setHandleValueWindows(handleValueWindows - 2.4);
+        setJanela(janela - 1);
     }
 
     function incrementDoors() {
-        setHandleValueDoors(handleValueDoors + 1)
-        setPorta(porta + 1)
+        setHandleValueDoors(handleValueDoors + 1.5);
+        setPorta(porta + 1);
 
     }
 
     function decrementDoors() {
         if (handleValueDoors === 0) return;
-        setHandleValueDoors(handleValueDoors - 1)
-        setPorta(porta - 1)
+        setHandleValueDoors(handleValueDoors - 1.5);
+        setPorta(porta - 1);
+    }
 
 
+    const handleFinalResult1 = handleValueHeight * handleValueWidth
+    const handleFinalResult2 = handleValueWindows + handleValueDoors
+    const ter = handleFinalResult1 - handleFinalResult2
+    const latasDeTinta = ter/5
+
+    function showResults(){
+    console.log('total:' + ter)
+    console.log({
+        '0.5L': latasDeTinta/0.5,
+        '2.5L': latasDeTinta/2.5,
+        '3.6L': latasDeTinta/3.6,
+        '18L': latasDeTinta/18
+    })  
     }
 
 
 
     return (
         <div className="wall">
-            {altura}Metros altura | {altura / 2}Altura /2
+         áreas da janela {handleValueWindows} 
+         área da porta {handleValueDoors}
             <h1>Parede 1</h1>
 
             <label htmlFor="altura">Altura</label>
@@ -132,6 +147,7 @@ export function MeasuresFirst() {
                     />
                     <button onClick={incrementDoors}><Plus size={20} /></button>
                 </div>
+                <button onClick={showResults}>Alertar</button>
             </div>
 
         </div>
