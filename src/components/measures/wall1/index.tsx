@@ -8,8 +8,8 @@ export function MeasuresFirst() {
 
 
 
-    const [handleValueHeight, setHandleValueHeight] = useState<any>(0)
-    const [handleValueWidth, setHandleValueWidth] = useState<any>(0)
+    const [handleValueHeight, setHandleValueHeight] = useState<any>(1)
+    const [handleValueWidth, setHandleValueWidth] = useState<any>(1)
     const [handleValueWindows, setHandleValueWindows] = useState<any>(0)
     const [handleValueDoors, setHandleValueDoors] = useState<any>(0)
     const { altura, setAltura, largura, setLargura, janela, setJanela, porta, setPorta } = useContext(CountContext)
@@ -21,26 +21,24 @@ export function MeasuresFirst() {
     var availableSpace = 50*handleTotalWidthHeight/100 - handleTotalWindowDoor
 
     function incrementHeight() {
-      
         setHandleValueHeight(handleValueHeight + 1);
         setAltura(altura + 1);
 
     }
 
     function decrementHeight() {
-        if (handleValueHeight === 0) return;
+        if (handleValueHeight === 1) return;
         setHandleValueHeight(handleValueHeight - 1);
         setAltura(altura - 1);
     }
 
     function incrementWidth() {
-
         setHandleValueWidth(handleValueWidth + 1);
         setLargura(largura + 1)
     }
 
     function decrementWidth() {
-        if (handleValueWidth === 0) return;
+        if (handleValueWidth === 1) return;
         setHandleValueWidth(handleValueWidth - 1);
         setLargura(largura - 1)
     }
@@ -59,7 +57,10 @@ export function MeasuresFirst() {
     }
 
     function incrementDoors() {
-     
+        if(handleTotalWidthHeight<2.20){
+            alert('Tamanho da parede insuficiente para adicionar uma porta');
+            return;
+        }
 
         setHandleValueDoors(handleValueDoors + 1.5);
         setPorta(porta + 1);
@@ -75,6 +76,7 @@ export function MeasuresFirst() {
 
 
     function showResults(){
+    console.log(80*1000/100)
     console.log(50*handleTotalWidthHeight/100)
     console.log({
         '0.5L': (latasDeTinta/0.5).toFixed(1),
@@ -98,6 +100,7 @@ export function MeasuresFirst() {
                     name="altura"
                     type="number"
                     value={handleValueHeight}
+                    min="1"
                     max="15"
                     onChange={(item) => setHandleValueHeight(item.target.value)}
                     placeholder="Altura"
@@ -111,7 +114,7 @@ export function MeasuresFirst() {
                     name="largura"
                     type="number"
                     value={handleValueWidth}
-                    min="0"
+                    min="1"
                     max="15"
                     onChange={(item) => setHandleValueWidth(item.target.value)}
                     placeholder="Largura"
@@ -119,8 +122,7 @@ export function MeasuresFirst() {
                 />
                 <button onClick={incrementWidth}><Plus size={20} /></button>
             </div>
-            <div className={handleValueHeight > 0 && handleValueWidth > 0 ? 'doorsWindows' : 'doorsWindowsHide'}>
-                {/* {availableSpace < 0 && <WarningMessage message="Limite de medidas excedido ⚠️"/>} */}
+            <div className='doorsWindows'>
                
                 {availableSpace> 0 ?  <span>Espaço disponível {availableSpace.toFixed(1)}m²</span> : <WarningMessage message="Limite de medidas excedido ⚠️"/>}
                 <h3>Janelas</h3>
