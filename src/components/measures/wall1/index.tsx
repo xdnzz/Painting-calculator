@@ -1,29 +1,55 @@
-import { useState, useContext, useEffect } from 'react';
-import '../style.css';
-import { CountContext } from '../../../contexts/total';
+import { useContext, useEffect } from 'react';
+import { GlobalContext } from '../../../contextGlobal/valoresTotais';
+import { FirstWall } from '../../../contextGlobal/wall1'
 import { Plus, Minus } from "phosphor-react";
-import {WarningMessage} from '../../warning/Index'
+import { WarningMessage } from '../../warning/Index'
+import '../global/style.css';
+import { WallOne } from '../../../tipagens/tipagens';
+
 
 export function MeasuresFirst() {
+    const {
+        altura,
+        setAltura,
+        largura,
+        setLargura,
+        janela,
+        setJanela,
+        porta,
+        setPorta,
+        medidasGlobais,
+        setMedidasGlobais
+    } = useContext(GlobalContext);
+
+    const {
+        handleValueHeight,
+        setHandleValueHeight,
+        handleValueWidth,
+        setHandleValueWidth,
+        handleValueWindows,
+        setHandleValueWindows,
+        handleValueDoors,
+        setHandleValueDoors,
+        windowAmount,
+        setWindowAmount,
+        doorAmount,
+        setDoorAmount,
+
+    } = useContext<WallOne>(FirstWall);
+
+    const totalMedidas = {
+        totalAlturaLargura: handleValueHeight * handleValueWidth,
+        totalPortaJanela: handleValueWindows + handleValueDoors,
+    }
 
 
+    var availableSpace = 50 * totalMedidas.totalAlturaLargura / 100 - totalMedidas.totalPortaJanela;
 
-    const [handleValueHeight, setHandleValueHeight] = useState<any>(1)
-    const [handleValueWidth, setHandleValueWidth] = useState<any>(1)
-    const [handleValueWindows, setHandleValueWindows] = useState<any>(0)
-    const [handleValueDoors, setHandleValueDoors] = useState<any>(0)
-    const { altura, setAltura, largura, setLargura, janela, setJanela, porta, setPorta } = useContext(CountContext)
 
-    const handleTotalWidthHeight = handleValueHeight * handleValueWidth //Obtendo as medidas por m² da altura e largura
-    const handleTotalWindowDoor = handleValueWindows + handleValueDoors //Obtendo as medidas por m² da janela e porta
-    const handleFinalResult = handleTotalWidthHeight - handleTotalWindowDoor //Obtendo o resultado do total de m² disponível
-    const latasDeTinta = handleFinalResult/5 
-    var availableSpace = 50*handleTotalWidthHeight/100 - handleTotalWindowDoor
 
     function incrementHeight() {
         setHandleValueHeight(handleValueHeight + 1);
         setAltura(altura + 1);
-
     }
 
     function decrementHeight() {
@@ -45,23 +71,25 @@ export function MeasuresFirst() {
 
 
     function incrementWindow() {
-
         setHandleValueWindows(handleValueWindows + 2.4);
+        setWindowAmount(windowAmount + 1)
         setJanela(janela + 1);
     }
 
     function decrementWindow() {
         if (handleValueWindows === 0) return;
         setHandleValueWindows(handleValueWindows - 2.4);
+        setWindowAmount(windowAmount - 1)
         setJanela(janela - 1);
     }
 
     function incrementDoors() {
-        if(handleTotalWidthHeight<2.20){
+
+        if (availableSpace < 2.2) {
             alert('Tamanho da parede insuficiente para adicionar uma porta');
             return;
         }
-
+        setDoorAmount(doorAmount + 1)
         setHandleValueDoors(handleValueDoors + 1.5);
         setPorta(porta + 1);
 
@@ -69,30 +97,35 @@ export function MeasuresFirst() {
 
     function decrementDoors() {
         if (handleValueDoors === 0) return;
+        setDoorAmount(doorAmount - 1)
         setHandleValueDoors(handleValueDoors - 1.5);
         setPorta(porta - 1);
     }
 
 
+    useEffect(() => {
+        setMedidasGlobais(totalMedidas.totalAlturaLargura - totalMedidas.totalPortaJanela);
+    }, [handleValueHeight, handleValueWidth, handleValueDoors, handleValueWindows])
 
-    function showResults(){
-    console.log(80*1000/100)
-    console.log(50*handleTotalWidthHeight/100)
-    console.log({
-        '0.5L': (latasDeTinta/0.5).toFixed(1),
-        '2.5L': (latasDeTinta/2.5).toFixed(1),
-        '3.6L': (latasDeTinta/3.6).toFixed(1),
-        '18L': (latasDeTinta/18).toFixed(1)
-    })  
-    }
+
+    // function showResults() {
+    //     console.log(80 * 1000 / 100)
+    //     console.log(50 * handleTotalWidthHeight / 100)
+    //     console.log({
+    //         '0.5L': (latasDeTinta / 0.5).toFixed(1),
+    //         '2.5L': (latasDeTinta / 2.5).toFixed(1),
+    //         '3.6L': (latasDeTinta / 3.6).toFixed(1),
+    //         '18L': (latasDeTinta / 18).toFixed(1)
+    //     })
+    // }
 
 
     return (
+
         <div className="wall">
-       
             <h1>Parede 1</h1>
-        {handleTotalWidthHeight>15 && <WarningMessage message="Medida máxima permitida: 15 ⚠️"/>}
-        <span>Medidas atuais: {handleTotalWidthHeight}m²</span>
+            {totalMedidas.totalAlturaLargura > 15 && <WarningMessage message="Medida máxima permitida: 15 ⚠️" />}
+            <span>Medidas atuais: {totalMedidas.totalAlturaLargura}m²</span>
             <label htmlFor="altura">Altura</label>
             <div className="inputItems">
                 <button onClick={decrementHeight}><Minus size={20} /></button>
@@ -123,15 +156,15 @@ export function MeasuresFirst() {
                 <button onClick={incrementWidth}><Plus size={20} /></button>
             </div>
             <div className='doorsWindows'>
-               
-                {availableSpace> 0 ?  <span>Espaço disponível {availableSpace.toFixed(1)}m²</span> : <WarningMessage message="Limite de medidas excedido ⚠️"/>}
+
+                {availableSpace > 0 ? <span>Espaço disponível {availableSpace.toFixed(1)}m²</span> : <WarningMessage message="Limite de medidas excedido ⚠️" />}
                 <h3>Janelas</h3>
                 <div className="inputItems">
                     <button onClick={decrementWindow}><Minus size={20} /></button>
                     <input
                         name="largura"
                         type="number"
-                        value={janela}
+                        value={windowAmount}
                         onChange={(item) => setHandleValueWindows(item.target.value)}
                         min="0"
                         max="15"
@@ -146,7 +179,7 @@ export function MeasuresFirst() {
                     <input
                         name="largura"
                         type="number"
-                        value={porta}
+                        value={doorAmount}
                         onChange={(item) => setHandleValueDoors(item.target.value)}
                         min="0"
                         max="15"
@@ -155,9 +188,10 @@ export function MeasuresFirst() {
                     />
                     <button onClick={incrementDoors}><Plus size={20} /></button>
                 </div>
-                <button onClick={showResults}>Alertar</button>
+                {/* <button onClick={showResults}>Alertar</button> */}
             </div>
 
         </div>
+
     )
 }
