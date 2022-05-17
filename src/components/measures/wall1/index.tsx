@@ -18,7 +18,7 @@ export function MeasuresFirst() {
     const handleTotalWindowDoor = handleValueWindows + handleValueDoors //Obtendo as medidas por m² da janela e porta
     const handleFinalResult = handleTotalWidthHeight - handleTotalWindowDoor //Obtendo o resultado do total de m² disponível
     const latasDeTinta = handleFinalResult/5 
-
+    var availableSpace = 50*handleTotalWidthHeight/100 - handleTotalWindowDoor
 
     function incrementHeight() {
       
@@ -34,12 +34,7 @@ export function MeasuresFirst() {
     }
 
     function incrementWidth() {
-        console.log(handleTotalWidthHeight)
 
-        if (handleTotalWidthHeight >15) {
-            alert('Tamanho da parede excedido');
-            return;
-        }
         setHandleValueWidth(handleValueWidth + 1);
         setLargura(largura + 1)
     }
@@ -52,11 +47,6 @@ export function MeasuresFirst() {
 
 
     function incrementWindow() {
-        if(handleTotalWindowDoor> 50*handleTotalWidthHeight/100) {
-            alert('Quantidade permitida para as medidas providas excedido');
-            return;
-
-        }
 
         setHandleValueWindows(handleValueWindows + 2.4);
         setJanela(janela + 1);
@@ -69,11 +59,7 @@ export function MeasuresFirst() {
     }
 
     function incrementDoors() {
-        if(handleTotalWindowDoor> 50*handleTotalWidthHeight/100) {
-            alert('Quantidade permitida para as medidas providas excedido');
-            console.log(handleTotalWindowDoor)
-            return;
-        }
+     
 
         setHandleValueDoors(handleValueDoors + 1.5);
         setPorta(porta + 1);
@@ -90,14 +76,13 @@ export function MeasuresFirst() {
 
     function showResults(){
     console.log(50*handleTotalWidthHeight/100)
-    // console.log({
-    //     '0.5L': latasDeTinta/0.5,
-    //     '2.5L': latasDeTinta/2.5,
-    //     '3.6L': latasDeTinta/3.6,
-    //     '18L': latasDeTinta/18
-    // })  
+    console.log({
+        '0.5L': (latasDeTinta/0.5).toFixed(1),
+        '2.5L': (latasDeTinta/2.5).toFixed(1),
+        '3.6L': (latasDeTinta/3.6).toFixed(1),
+        '18L': (latasDeTinta/18).toFixed(1)
+    })  
     }
-
 
 
     return (
@@ -135,7 +120,9 @@ export function MeasuresFirst() {
                 <button onClick={incrementWidth}><Plus size={20} /></button>
             </div>
             <div className={handleValueHeight > 0 && handleValueWidth > 0 ? 'doorsWindows' : 'doorsWindowsHide'}>
-                <span>espaço: {handleFinalResult/2}</span>
+                {/* {availableSpace < 0 && <WarningMessage message="Limite de medidas excedido ⚠️"/>} */}
+               
+                {availableSpace> 0 ?  <span>Espaço disponível {availableSpace.toFixed(1)}m²</span> : <WarningMessage message="Limite de medidas excedido ⚠️"/>}
                 <h3>Janelas</h3>
                 <div className="inputItems">
                     <button onClick={decrementWindow}><Minus size={20} /></button>
