@@ -3,22 +3,23 @@ import { GlobalContext } from '../../../contextGlobal/valoresTotais';
 import { FourthWall } from '../../../contextGlobal/wall4'
 import { Plus, Minus } from "phosphor-react";
 import { WarningMessage } from '../../warning/Index'
-import '../global/style.css';
-import { WallOne } from '../../../tipagens/tipagens';
+import { Walls } from '../../../tipagens/tipagens';
+import '../globalstyle/style.css';
+
 
 export function MeasuresFourth() {
 
     const {
-        altura,
-        setAltura,
+        alturaParede4,
+        espaçoDisponivelParede4,
+        setEspaçoDisponivelParede4,
+        setAlturaParede4,
         largura,
         setLargura,
         janela,
         setJanela,
         porta,
         setPorta,
-        medidasGlobais,
-        setMedidasGlobais
     } = useContext(GlobalContext);
 
     const {
@@ -35,7 +36,7 @@ export function MeasuresFourth() {
         doorAmount,
         setDoorAmount,
 
-    } = useContext<WallOne>(FourthWall);
+    } = useContext<Walls>(FourthWall);
 
     const totalMedidas = {
         totalAlturaLargura: handleValueHeight * handleValueWidth,
@@ -48,14 +49,13 @@ export function MeasuresFourth() {
 
 
     function incrementHeight() {
+        if(handleValueHeight===15) return;
         setHandleValueHeight(handleValueHeight + 1);
-        setAltura(altura + 1);
     }
 
     function decrementHeight() {
         if (handleValueHeight === 1) return;
         setHandleValueHeight(handleValueHeight - 1);
-        setAltura(altura - 1);
     }
 
     function incrementWidth() {
@@ -69,7 +69,6 @@ export function MeasuresFourth() {
         setLargura(largura - 1)
     }
 
-
     function incrementWindow() {
         setHandleValueWindows(handleValueWindows + 2.4);
         setWindowAmount(windowAmount + 1)
@@ -77,7 +76,7 @@ export function MeasuresFourth() {
     }
 
     function decrementWindow() {
-        if (handleValueWindows === 0) return;
+        if (windowAmount <= 0) return;
         setHandleValueWindows(handleValueWindows - 2.4);
         setWindowAmount(windowAmount - 1)
         setJanela(janela - 1);
@@ -104,7 +103,8 @@ export function MeasuresFourth() {
 
 
     useEffect(() => {
-        setMedidasGlobais(totalMedidas.totalAlturaLargura - totalMedidas.totalPortaJanela);
+        setEspaçoDisponivelParede4(50 * totalMedidas.totalAlturaLargura / 100 - totalMedidas.totalPortaJanela);
+        setAlturaParede4(totalMedidas.totalAlturaLargura - totalMedidas.totalPortaJanela)
     }, [handleValueHeight, handleValueWidth, handleValueDoors, handleValueWindows])
 
 
@@ -123,7 +123,7 @@ export function MeasuresFourth() {
     return (
 
         <div className="wall">
-            <h1>Parede 4</h1>
+            <h1>Parede 4</h1>  restante {alturaParede4.toFixed(1)}
             {totalMedidas.totalAlturaLargura > 15 && <WarningMessage message="Medida máxima permitida: 15 ⚠️" />}
             <span>Medidas atuais: {totalMedidas.totalAlturaLargura}m²</span>
             <label htmlFor="altura">Altura</label>
@@ -156,8 +156,8 @@ export function MeasuresFourth() {
                 <button onClick={incrementWidth}><Plus size={20} /></button>
             </div>
             <div className='doorsWindows'>
-
-                {availableSpace > 0 ? <span>Espaço disponível {availableSpace.toFixed(1)}m²</span> : <WarningMessage message="Limite de medidas excedido ⚠️" />}
+aq {espaçoDisponivelParede4}
+                {espaçoDisponivelParede4 > 0 ? <span>Espaço disponível {espaçoDisponivelParede4.toFixed(1)}m²</span> : <WarningMessage message="Espaço insuficiente p/ janelas/portas" />}
                 <h3>Janelas</h3>
                 <div className="inputItems">
                     <button onClick={decrementWindow}><Minus size={20} /></button>

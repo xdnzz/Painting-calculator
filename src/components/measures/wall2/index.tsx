@@ -3,23 +3,22 @@ import { GlobalContext } from '../../../contextGlobal/valoresTotais';
 import { SecondWall } from '../../../contextGlobal/wall2'
 import { Plus, Minus } from "phosphor-react";
 import { WarningMessage } from '../../warning/Index'
-import '../global/style.css';
-import { WallOne } from '../../../tipagens/tipagens';
-
+import { Walls } from '../../../tipagens/tipagens';
+import '../globalstyle/style.css';
 
 export function MeasuresSecond() {
    
     const {
-        altura,
-        setAltura,
+        alturaParede2,
+        setAlturaParede2,
         largura,
         setLargura,
         janela,
         setJanela,
         porta,
         setPorta,
-        medidasGlobais,
-        setMedidasGlobais
+        setEspaçoDisponivelParede2,
+        espaçoDisponivelParede2
     } = useContext(GlobalContext);
 
     const {
@@ -36,7 +35,7 @@ export function MeasuresSecond() {
         doorAmount,
         setDoorAmount,
 
-    } = useContext<WallOne>(SecondWall);
+    } = useContext<Walls>(SecondWall);
 
     const totalMedidas = {
         totalAlturaLargura: handleValueHeight * handleValueWidth,
@@ -49,14 +48,13 @@ export function MeasuresSecond() {
 
 
     function incrementHeight() {
+        if(handleValueHeight===15) return;
         setHandleValueHeight(handleValueHeight + 1);
-        setAltura(altura + 1);
     }
 
     function decrementHeight() {
         if (handleValueHeight === 1) return;
         setHandleValueHeight(handleValueHeight - 1);
-        setAltura(altura - 1);
     }
 
     function incrementWidth() {
@@ -78,7 +76,7 @@ export function MeasuresSecond() {
     }
 
     function decrementWindow() {
-        if (handleValueWindows === 0) return;
+        if (windowAmount === 0) return;
         setHandleValueWindows(handleValueWindows - 2.4);
         setWindowAmount(windowAmount - 1)
         setJanela(janela - 1);
@@ -103,9 +101,9 @@ export function MeasuresSecond() {
         setPorta(porta - 1);
     }
 
-
     useEffect(() => {
-        setMedidasGlobais(totalMedidas.totalAlturaLargura - totalMedidas.totalPortaJanela);
+        setEspaçoDisponivelParede2(50 * totalMedidas.totalAlturaLargura / 100 - totalMedidas.totalPortaJanela);
+        setAlturaParede2(totalMedidas.totalAlturaLargura - totalMedidas.totalPortaJanela)
     }, [handleValueHeight, handleValueWidth, handleValueDoors, handleValueWindows])
 
 
@@ -124,7 +122,7 @@ export function MeasuresSecond() {
     return (
 
         <div className="wall">
-            <h1>Parede 2</h1>
+            <h1>Parede 2</h1> restante {alturaParede2.toFixed(1)}
             {totalMedidas.totalAlturaLargura > 15 && <WarningMessage message="Medida máxima permitida: 15 ⚠️" />}
             <span>Medidas atuais: {totalMedidas.totalAlturaLargura}m²</span>
             <label htmlFor="altura">Altura</label>
@@ -158,7 +156,7 @@ export function MeasuresSecond() {
             </div>
             <div className='doorsWindows'>
 
-                {availableSpace > 0 ? <span>Espaço disponível {availableSpace.toFixed(1)}m²</span> : <WarningMessage message="Limite de medidas excedido ⚠️" />}
+                {espaçoDisponivelParede2 > 0 ? <span>Espaço disponível {espaçoDisponivelParede2.toFixed(1)}m²</span> : <WarningMessage message="Espaço insuficiente p/ janelas/portas" />}
                 <h3>Janelas</h3>
                 <div className="inputItems">
                     <button onClick={decrementWindow}><Minus size={20} /></button>

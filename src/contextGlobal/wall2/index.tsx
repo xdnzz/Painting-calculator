@@ -1,14 +1,14 @@
 import { createContext, useState } from "react";
-import { WallOne } from '../../tipagens/tipagens';
+import { Walls } from '../../tipagens/tipagens';
 
 
 
-export const SecondWall = createContext({} as WallOne);
+export const SecondWall = createContext({} as Walls);
 
 function WallTwoProvider({ children }: any) {
 
-    const [handleValueHeight, setHandleValueHeight] = useState<any>(1);
-    const [handleValueWidth, setHandleValueWidth] = useState<any>(1);
+    const [handleValueHeight, setHandleValueHeight] = useState<any>(0);
+    const [handleValueWidth, setHandleValueWidth] = useState<any>(0);
     const [handleValueWindows, setHandleValueWindows] = useState<any>(0);
     const [handleValueDoors, setHandleValueDoors] = useState<any>(0);
     const [windowAmount, setWindowAmount] = useState<any>(0);

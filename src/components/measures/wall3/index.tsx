@@ -3,23 +3,24 @@ import { GlobalContext } from '../../../contextGlobal/valoresTotais';
 import { ThirtWall } from '../../../contextGlobal/wall3'
 import { Plus, Minus } from "phosphor-react";
 import { WarningMessage } from '../../warning/Index'
-import '../global/style.css';
-import { WallOne } from '../../../tipagens/tipagens';
+import { Walls } from '../../../tipagens/tipagens';
+import '../globalstyle/style.css';
+
 
 export function MeasuresThirt() {
 
    
     const {
-        altura,
-        setAltura,
+        espaçoDisponivelParede3,
+        setAlturaParede3,
+        alturaParede3,
         largura,
         setLargura,
         janela,
         setJanela,
         porta,
         setPorta,
-        medidasGlobais,
-        setMedidasGlobais
+        setEspaçoDisponivelParede3
     } = useContext(GlobalContext);
 
     const {
@@ -36,7 +37,7 @@ export function MeasuresThirt() {
         doorAmount,
         setDoorAmount,
 
-    } = useContext<WallOne>(ThirtWall);
+    } = useContext<Walls>(ThirtWall);
 
     const totalMedidas = {
         totalAlturaLargura: handleValueHeight * handleValueWidth,
@@ -49,14 +50,13 @@ export function MeasuresThirt() {
 
 
     function incrementHeight() {
+        if(handleValueHeight===15) return;
         setHandleValueHeight(handleValueHeight + 1);
-        setAltura(altura + 1);
     }
 
     function decrementHeight() {
         if (handleValueHeight === 1) return;
         setHandleValueHeight(handleValueHeight - 1);
-        setAltura(altura - 1);
     }
 
     function incrementWidth() {
@@ -78,7 +78,7 @@ export function MeasuresThirt() {
     }
 
     function decrementWindow() {
-        if (handleValueWindows === 0) return;
+        if (windowAmount === 0) return;
         setHandleValueWindows(handleValueWindows - 2.4);
         setWindowAmount(windowAmount - 1)
         setJanela(janela - 1);
@@ -105,9 +105,9 @@ export function MeasuresThirt() {
 
 
     useEffect(() => {
-        setMedidasGlobais(totalMedidas.totalAlturaLargura - totalMedidas.totalPortaJanela);
+        setEspaçoDisponivelParede3(50 * totalMedidas.totalAlturaLargura / 100 - totalMedidas.totalPortaJanela);
+        setAlturaParede3(totalMedidas.totalAlturaLargura - totalMedidas.totalPortaJanela)
     }, [handleValueHeight, handleValueWidth, handleValueDoors, handleValueWindows])
-
 
     // function showResults() {
     //     console.log(80 * 1000 / 100)
@@ -124,7 +124,8 @@ export function MeasuresThirt() {
     return (
 
         <div className="wall">
-            <h1>Parede 3</h1>
+            <h1>Parede 3</h1> restante {alturaParede3.toFixed(1)}
+        
             {totalMedidas.totalAlturaLargura > 15 && <WarningMessage message="Medida máxima permitida: 15 ⚠️" />}
             <span>Medidas atuais: {totalMedidas.totalAlturaLargura}m²</span>
             <label htmlFor="altura">Altura</label>
@@ -158,7 +159,7 @@ export function MeasuresThirt() {
             </div>
             <div className='doorsWindows'>
 
-                {availableSpace > 0 ? <span>Espaço disponível {availableSpace.toFixed(1)}m²</span> : <WarningMessage message="Limite de medidas excedido ⚠️" />}
+                {espaçoDisponivelParede3 > 0 ? <span>Espaço disponível {espaçoDisponivelParede3.toFixed(1)}m²</span> : <WarningMessage message="Espaço insuficiente p/ janelas/portas" />}
                 <h3>Janelas</h3>
                 <div className="inputItems">
                     <button onClick={decrementWindow}><Minus size={20} /></button>

@@ -3,14 +3,13 @@ import { GlobalContext } from '../../../contextGlobal/valoresTotais';
 import { FirstWall } from '../../../contextGlobal/wall1'
 import { Plus, Minus } from "phosphor-react";
 import { WarningMessage } from '../../warning/Index'
-import '../global/style.css';
-import { WallOne } from '../../../tipagens/tipagens';
-
+import { Walls } from '../../../tipagens/tipagens';
+import '../globalstyle/style.css';
 
 export function MeasuresFirst() {
     const {
-        altura,
-        setAltura,
+        alturaParede1,
+        setAlturaParede1,
         largura,
         setLargura,
         janela,
@@ -18,7 +17,9 @@ export function MeasuresFirst() {
         porta,
         setPorta,
         medidasGlobais,
-        setMedidasGlobais
+        setMedidasGlobais,
+        setEspaçoDisponivelParede1,
+        espaçoDisponivelParede1
     } = useContext(GlobalContext);
 
     const {
@@ -35,36 +36,35 @@ export function MeasuresFirst() {
         doorAmount,
         setDoorAmount,
 
-    } = useContext<WallOne>(FirstWall);
+    } = useContext<Walls>(FirstWall);
 
     const totalMedidas = {
         totalAlturaLargura: handleValueHeight * handleValueWidth,
         totalPortaJanela: handleValueWindows + handleValueDoors,
     }
 
-
     var availableSpace = 50 * totalMedidas.totalAlturaLargura / 100 - totalMedidas.totalPortaJanela;
 
 
 
     function incrementHeight() {
+        if(totalMedidas.totalAlturaLargura >= 15) return
         setHandleValueHeight(handleValueHeight + 1);
-        setAltura(altura + 1);
     }
 
     function decrementHeight() {
-        if (handleValueHeight === 1) return;
+        if (handleValueHeight === 0) return;
         setHandleValueHeight(handleValueHeight - 1);
-        setAltura(altura - 1);
     }
 
     function incrementWidth() {
+        if(totalMedidas.totalAlturaLargura >= 15) return
         setHandleValueWidth(handleValueWidth + 1);
         setLargura(largura + 1)
     }
 
     function decrementWidth() {
-        if (handleValueWidth === 1) return;
+        if (handleValueWidth === 0) return;
         setHandleValueWidth(handleValueWidth - 1);
         setLargura(largura - 1)
     }
@@ -77,14 +77,13 @@ export function MeasuresFirst() {
     }
 
     function decrementWindow() {
-        if (handleValueWindows === 0) return;
+        if (windowAmount === 0) return;
         setHandleValueWindows(handleValueWindows - 2.4);
         setWindowAmount(windowAmount - 1)
         setJanela(janela - 1);
     }
 
     function incrementDoors() {
-
         if (availableSpace < 2.2) {
             alert('Tamanho da parede insuficiente para adicionar uma porta');
             return;
@@ -96,6 +95,7 @@ export function MeasuresFirst() {
     }
 
     function decrementDoors() {
+
         if (handleValueDoors === 0) return;
         setDoorAmount(doorAmount - 1)
         setHandleValueDoors(handleValueDoors - 1.5);
@@ -105,6 +105,8 @@ export function MeasuresFirst() {
 
     useEffect(() => {
         setMedidasGlobais(totalMedidas.totalAlturaLargura - totalMedidas.totalPortaJanela);
+        setEspaçoDisponivelParede1(50 * totalMedidas.totalAlturaLargura / 100 - totalMedidas.totalPortaJanela);
+        setAlturaParede1(totalMedidas.totalAlturaLargura - totalMedidas.totalPortaJanela)
     }, [handleValueHeight, handleValueWidth, handleValueDoors, handleValueWindows])
 
 
@@ -119,11 +121,13 @@ export function MeasuresFirst() {
     //     })
     // }
 
+  
+
 
     return (
 
         <div className="wall">
-            <h1>Parede 1</h1>
+            <h1>Parede 1</h1>  restante {alturaParede1.toFixed(1)}
             {totalMedidas.totalAlturaLargura > 15 && <WarningMessage message="Medida máxima permitida: 15 ⚠️" />}
             <span>Medidas atuais: {totalMedidas.totalAlturaLargura}m²</span>
             <label htmlFor="altura">Altura</label>
@@ -157,8 +161,9 @@ export function MeasuresFirst() {
             </div>
             <div className='doorsWindows'>
 
-                {availableSpace > 0 ? <span>Espaço disponível {availableSpace.toFixed(1)}m²</span> : <WarningMessage message="Limite de medidas excedido ⚠️" />}
+                {espaçoDisponivelParede1 > 0 ? <span>Espaço disponível {espaçoDisponivelParede1.toFixed(1)}m²</span> : <WarningMessage message="Espaço insuficiente p/ janelas/portas" />}
                 <h3>Janelas</h3>
+                
                 <div className="inputItems">
                     <button onClick={decrementWindow}><Minus size={20} /></button>
                     <input
