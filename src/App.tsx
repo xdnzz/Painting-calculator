@@ -4,7 +4,7 @@ import { MeasuresFirst } from './components/measures/wall1';
 import { MeasuresSecond } from './components/measures/wall2';
 import { MeasuresThirt } from './components/measures/wall3';
 import { MeasuresFourth } from './components/measures/wall4';
-import Teste from './components/teste';
+import ContentWallCalculate from './components/wallCalculate/ContentWallCalculate';
 import GlobalContextProvider from './contextGlobal/valoresTotais';
 import WallOneProvider from './contextGlobal/wall1';
 import WallTwoProvider from './contextGlobal/wall2';
@@ -24,7 +24,7 @@ function App() {
         <WallOneProvider>
           <MeasuresFirst />
         </WallOneProvider>
-        <Teste/>
+        <ContentWallCalculate/>
         <WallTwoProvider>
           <MeasuresSecond />
         </WallTwoProvider>

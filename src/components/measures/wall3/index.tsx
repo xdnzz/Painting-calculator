@@ -50,22 +50,23 @@ export function MeasuresThirt() {
 
 
     function incrementHeight() {
-        if(handleValueHeight===15) return;
+        if(totalMedidas.totalAlturaLargura >= 15) return
         setHandleValueHeight(handleValueHeight + 1);
     }
 
     function decrementHeight() {
-        if (handleValueHeight === 1) return;
+        if (handleValueHeight === 0) return;
         setHandleValueHeight(handleValueHeight - 1);
     }
 
     function incrementWidth() {
+        if(totalMedidas.totalAlturaLargura >= 15) return
         setHandleValueWidth(handleValueWidth + 1);
         setLargura(largura + 1)
     }
 
     function decrementWidth() {
-        if (handleValueWidth === 1) return;
+        if (handleValueWidth === 0) return;
         setHandleValueWidth(handleValueWidth - 1);
         setLargura(largura - 1)
     }

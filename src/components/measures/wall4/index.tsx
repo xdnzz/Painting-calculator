@@ -49,22 +49,23 @@ export function MeasuresFourth() {
 
 
     function incrementHeight() {
-        if(handleValueHeight===15) return;
+        if(totalMedidas.totalAlturaLargura >= 15) return
         setHandleValueHeight(handleValueHeight + 1);
     }
 
     function decrementHeight() {
-        if (handleValueHeight === 1) return;
+        if (handleValueHeight === 0) return;
         setHandleValueHeight(handleValueHeight - 1);
     }
 
     function incrementWidth() {
+        if(totalMedidas.totalAlturaLargura >= 15) return
         setHandleValueWidth(handleValueWidth + 1);
         setLargura(largura + 1)
     }
 
     function decrementWidth() {
-        if (handleValueWidth === 1) return;
+        if (handleValueWidth === 0) return;
         setHandleValueWidth(handleValueWidth - 1);
         setLargura(largura - 1)
     }
@@ -156,7 +157,6 @@ export function MeasuresFourth() {
                 <button onClick={incrementWidth}><Plus size={20} /></button>
             </div>
             <div className='doorsWindows'>
-aq {espaçoDisponivelParede4}
                 {espaçoDisponivelParede4 > 0 ? <span>Espaço disponível {espaçoDisponivelParede4.toFixed(1)}m²</span> : <WarningMessage message="Espaço insuficiente p/ janelas/portas" />}
                 <h3>Janelas</h3>
                 <div className="inputItems">

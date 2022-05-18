@@ -16,7 +16,6 @@ export function MeasuresFirst() {
         setJanela,
         porta,
         setPorta,
-        medidasGlobais,
         setMedidasGlobais,
         setEspaçoDisponivelParede1,
         espaçoDisponivelParede1
@@ -104,6 +103,8 @@ export function MeasuresFirst() {
 
 
     useEffect(() => {
+        
+        
         setMedidasGlobais(totalMedidas.totalAlturaLargura - totalMedidas.totalPortaJanela);
         setEspaçoDisponivelParede1(50 * totalMedidas.totalAlturaLargura / 100 - totalMedidas.totalPortaJanela);
         setAlturaParede1(totalMedidas.totalAlturaLargura - totalMedidas.totalPortaJanela)
@@ -193,7 +194,6 @@ export function MeasuresFirst() {
                     />
                     <button onClick={incrementDoors}><Plus size={20} /></button>
                 </div>
-                {/* <button onClick={showResults}>Alertar</button> */}
             </div>
 
         </div>

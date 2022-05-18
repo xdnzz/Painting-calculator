@@ -1,0 +1,51 @@
+.mainContent {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.282);
+}
+
+.finalResult {
+    display: flex;
+    background-color: #FFF;
+
+    flex-direction: column;
+    width: 350px;
+    border-radius: 5px;
+    align-items: center;
+}
+
+.finalResult span {
+    margin: 10px 0  ;
+    padding: 10px
+}
+
+.finalResult svg {
+    margin-top: 10px;
+    cursor: pointer;
+}
+.btnSection {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100px;
+    position: absolute;
+    margin-bottom: 500px;
+}
+.showDataBtn {
+    position: absolute;
+    background: grey;
+    color: #fff;
+    width: 100px;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
